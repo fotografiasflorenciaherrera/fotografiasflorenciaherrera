@@ -5,49 +5,19 @@ backend:
 media_folder: /
 public_folder: /
 
-backend:
-  name: git-gateway
-  branch: main
-
-media_folder: /
-public_folder: /
-
 collections:
-  - name: "paginas"
-    label: "Páginas del Sitio"
+  - name: "sobre_mi"
+    label: "Sección Sobre Mí"
     files:
       - file: "sobre_mi.json"
-        label: "Sección Sobre Mí"
-        name: "sobre_mi"
+        label: "Información Personal"
+        name: "sobre_mi_data"
         fields:
           - { label: "Foto de Perfil", name: "foto", widget: "image" }
           - { label: "Saludo Inicial (Texto Grande)", name: "saludo", widget: "string", default: "Hola, soy Florencia." }
           - { label: "Biografía (Párrafos Principales)", name: "biografia", widget: "text" }
-          - { label: "Frase de Cierre (Destacada)", name: "frase_cierre", widget: "text" } 
-          
-  - name: "catalogo"
-    label: "Gestor de Álbumes"
-    files:
-      - label: "Todos los Álbumes"
-        name: "albumes_data"
-        file: "albumes.json"
-        fields:
-          - name: albumes
-            label: Lista de Álbumes
-            widget: list
-            fields:
-              - { label: "ID (una palabra sin espacios, ej: aves)", name: "id", widget: "string" }
-              - { label: "Título del Álbum", name: "tituloAlbum", widget: "string" }
-              - { label: "Descripción", name: "descripcion", widget: "text" }
-              - { label: "Precio General", name: "precioGeneral", widget: "string" }
-              - { label: "Imagen Portada", name: "imagenPortada", widget: "image" }
-              - name: fotos
-                label: Fotos adentro de este álbum
-                widget: list
-                fields:
-                  - { label: "Título de la foto", name: "title", widget: "string" }
-                  - { label: "Imagen", name: "imagenUrl", widget: "image" }
-          
+          - { label: "Frase de Cierre (Destacada)", name: "frase_cierre", widget: "text" }
+
   - name: "catalogo"
     label: "Gestor de Álbumes"
     files:
