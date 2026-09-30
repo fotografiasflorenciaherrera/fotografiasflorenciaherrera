@@ -14,7 +14,7 @@ let albumes = [];
 // UTILIDADES
 // ========================================================
 
-// Arma el enlace de WhatsApp (api.whatsapp.com es más compatible que wa.me con bloqueadores)
+// Arma el enlace de WhatsApp
 function crearUrlWhatsApp(mensaje = "") {
     const base = `https://api.whatsapp.com/send?phone=${telefonoWhatsApp}`;
     return mensaje ? `${base}&text=${encodeURIComponent(mensaje)}` : base;
@@ -36,13 +36,51 @@ function irALaGaleria() {
 }
 
 // ========================================================
-// CARGA DE DATOS DESDE EL CMS
+// CARGA DE DATOS DESDE EL CMS (Sobre Mí + Galería)
 // ========================================================
+
+// Carga dinámicamente la sección "Sobre Mí" manteniendo el diseño y tipografías
+async function cargarSobreMi() {
+    const imgElement = document.querySelector(".sobre-mi-imagen img");
+    const textoContainer = document.querySelector(".sobre-mi-texto");
+
+    try {
+        const respuesta = await fetch("sobre_mi.json", { cache: "no-cache" });
+        if (!respuesta.ok) return;
+
+        const datos = await respuesta.json();
+
+        // Actualiza la foto de perfil si existe en el JSON
+        if (datos.foto && imgElement) {
+            imgElement.src = datos.foto;
+        }
+
+        // Reconstruye el texto conservando la jerarquía CSS original
+        if (textoContainer) {
+            let parrafosHTML = "";
+            if (datos.biografia) {
+                parrafosHTML = datos.biografia
+                    .split("\n\n")
+                    .filter(p => p.trim() !== "")
+                    .map(p => `<p>${escaparHTML(p)}</p>`)
+                    .join("");
+            }
+
+            textoContainer.innerHTML = `
+                <span class="etiqueta-destacada">Sobre Mí</span>
+                ${datos.saludo ? `<p class="saludo"><strong>${escaparHTML(datos.saludo)}</strong></p>` : ""}
+                ${parrafosHTML}
+                ${datos.frase_cierre ? `<p class="frase-cierre">${escaparHTML(datos.frase_cierre)}</p>` : ""}
+            `;
+        }
+    } catch (error) {
+        console.log("Cargando contenido por defecto de 'Sobre Mí':", error);
+    }
+}
 
 async function cargarDatosDesdeCMS() {
     const contenedorFotos = document.getElementById("contenedor-galeria");
     try {
-        // no-cache: siempre trae la versión más nueva del JSON
         const respuesta = await fetch("albumes.json", { cache: "no-cache" });
 
         if (!respuesta.ok) {
@@ -67,6 +105,8 @@ async function cargarDatosDesdeCMS() {
 function cargarVistaInicial() {
     const contenedorFiltros = document.getElementById("filtros-albumes");
     const contenedorFotos = document.getElementById("contenedor-galeria");
+
+    if (!contenedorFiltros || !contenedorFotos) return;
 
     contenedorFiltros.innerHTML = "";
     contenedorFotos.innerHTML = "";
@@ -109,6 +149,8 @@ function cargarVistaInicial() {
 function mostrarAlbumPorDentro(album) {
     const contenedorFiltros = document.getElementById("filtros-albumes");
     const contenedorFotos = document.getElementById("contenedor-galeria");
+
+    if (!contenedorFiltros || !contenedorFotos) return;
 
     contenedorFiltros.innerHTML = `
         <button type="button" class="btn-album activo" id="btn-volver">← Volver a las Carpetas</button>
@@ -170,13 +212,13 @@ document.addEventListener("dragstart", function (e) {
 // ========================================================
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Botón flotante de WhatsApp: usa el número central
+    // 1. Botón flotante de WhatsApp
     const btnWhatsApp = document.getElementById("btn-whatsapp");
     if (btnWhatsApp) {
         btnWhatsApp.href = crearUrlWhatsApp("Hola Florencia! Vi tu página web y quisiera hacerte una consulta.");
     }
 
-    // 2. Netlify Identity: al iniciar sesión desde un link de invitación, ir al panel
+    // 2. Netlify Identity: al iniciar sesión va al panel
     if (window.netlifyIdentity) {
         window.netlifyIdentity.on("init", user => {
             if (!user) {
@@ -187,7 +229,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 3. Galería
+    // 3. Carga los datos del CMS
+    cargarSobreMi();
     cargarDatosDesdeCMS();
 
     // 4. Formulario de servicios especiales
@@ -195,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ========================================================
-// ENVÍO DEL FORMULARIO (Webhook o, si no está configurado, WhatsApp)
+// ENVÍO DEL FORMULARIO
 // ========================================================
 
 function configurarFormulario() {
@@ -206,14 +249,13 @@ function configurarFormulario() {
         e.preventDefault();
 
         const datosPedido = {
-            nombre: document.getElementById("nombre-cliente").value.trim(),
-            telefono: document.getElementById("telefono-cliente").value.trim(),
-            descripcion: document.getElementById("descripcion-evento").value.trim(),
-            expectativas: document.getElementById("expectativas-servicio").value.trim(),
+            nombre: document.getElementById("nombre-cliente")?.value.trim() || "",
+            telefono: document.getElementById("telefono-cliente")?.value.trim() || "",
+            descripcion: document.getElementById("descripcion-evento")?.value.trim() || "",
+            expectativas: document.getElementById("expectativas-servicio")?.value.trim() || "",
             fechaEnvio: new Date().toLocaleString("es-AR")
         };
 
-        // Si el webhook todavía no fue configurado, mandamos la solicitud por WhatsApp
         if (urlWebhook.includes("TU_WEBHOOK_AQUI")) {
             const mensaje =
                 `Hola Florencia! Quiero solicitar un presupuesto de servicio especial.\n\n` +
@@ -226,6 +268,8 @@ function configurarFormulario() {
         }
 
         const btnSubmit = document.getElementById("btn-enviar-presupuesto");
+        if (!btnSubmit) return;
+
         const textoOriginalBtn = btnSubmit.innerText;
         btnSubmit.innerText = "Enviando solicitud...";
         btnSubmit.disabled = true;
