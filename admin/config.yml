@@ -6,6 +6,16 @@ media_folder: /
 public_folder: /
 
 collections:
+  - name: "sobre_mi"
+    label: "Sección Sobre Mí"
+    files:
+      - file: "sobre_mi.json"
+        label: "Información Personal"
+        name: "sobre_mi_data"
+        fields:
+          - { label: "Foto de Perfil", name: "foto", widget: "image" }
+          - { label: "Biografía", name: "biografia", widget: "text" }
+          
   - name: "catalogo"
     label: "Gestor de Álbumes"
     files:
