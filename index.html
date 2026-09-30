@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Florencia Herrera | Fotografía. Galería de obras y servicios especiales para eventos.">
+    <title>Florencia Herrera | Fotografía</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Script de identidad de Netlify para gestión de usuarios (CMS) -->
+    <script defer src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+
+    <!-- Menú de Navegación Fijo Superior -->
+    <nav class="navbar">
+        <div class="nav-contenedor">
+            <span class="logo">FH</span>
+            <div class="nav-enlaces">
+                <a href="#inicio">Inicio</a>
+                <a href="#galeria-seccion">Galería</a>
+                <a href="#contratar-seccion">Servicios Especiales</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Encabezado Principal -->
+    <header id="inicio">
+        <h1>Florencia Herrera</h1>
+        <p>El arte de la fotografía</p>
+    </header>
+
+    <!-- Sección Galería de Obras -->
+    <section id="galeria-seccion">
+        <h2 class="titulo-galeria">Galería de Obras</h2>
+        <p class="subtitulo-galeria">Seleccioná una categoría para ver las fotografías disponibles.</p>
+
+        <!-- Contenedor para filtros/botones de álbumes -->
+        <div id="filtros-albumes"></div>
+
+        <!-- Grilla donde JavaScript inyectará las tarjetas -->
+        <main class="galeria" id="contenedor-galeria" aria-live="polite"></main>
+    </section>
+
+    <!-- Sección de Contratación Especial -->
+    <section class="seccion-servicios" id="contratar-seccion">
+        <div class="servicios-contenedor">
+
+            <!-- Columna Izquierda: Formulario -->
+            <div class="columna-formulario">
+                <h2>Contratar Servicio Especial</h2>
+                <p class="subtitulo-form">Completá los detalles de tu evento y me pondré en contacto.</p>
+
+                <form id="form-servicio-especial">
+                    <input type="text" id="nombre-cliente" name="nombre" placeholder="Ej: Juan Pérez"
+                           aria-label="Nombre y apellido" autocomplete="name" required />
+                    <input type="tel" id="telefono-cliente" name="telefono" placeholder="Ej: +54 9 3865 123456"
+                           aria-label="Teléfono de contacto" autocomplete="tel" required />
+                    <textarea id="descripcion-evento" name="descripcion" rows="4"
+                              placeholder="Tipo de evento, fecha estimada y lugar..."
+                              aria-label="Descripción del evento" required></textarea>
+                    <textarea id="expectativas-servicio" name="expectativas" rows="4"
+                              placeholder="Estilo de fotos, cantidad de imágenes editadas, etc..."
+                              aria-label="Expectativas del servicio" required></textarea>
+
+                    <button type="submit" id="btn-enviar-presupuesto">Enviar Solicitud de Presupuesto</button>
+                </form>
+            </div>
+
+            <!-- Columna Derecha: Información y Propuesta de Valor -->
+            <div class="columna-texto">
+                <span class="etiqueta-destacada">Servicios Exclusivos</span>
+                <h3>Hagamos que tus momentos se vuelvan eternos</h3>
+                <p class="descripcion-vendedora">
+                    Cada evento cuenta una historia única. Mi objetivo como fotógrafa no es solo registrar un día en el calendario, sino capturar la atmósfera, las risas espontáneas y los detalles que a menudo pasan desapercibidos.
+                </p>
+
+                <div class="item-expectativa">
+                    <h4>✨ Calidad de Autor</h4>
+                    <p>Entrego coberturas personalizadas con un proceso de edición digital minucioso, cuidando la luz, el color y la narrativa visual de cada toma.</p>
+                </div>
+
+                <div class="item-expectativa">
+                    <h4>📅 Planificación a Medida</h4>
+                    <p>Diseñamos la sesión con anticipación. Analizamos tus expectativas, el timing del evento y los momentos clave para que no falte ninguna imagen esencial.</p>
+                </div>
+
+                <div class="item-expectativa">
+                    <h4>🔒 Compromiso y Puntualidad</h4>
+                    <p>Garantizo un trato profesional de inicio a fin, con equipos de respaldo de alta gama y plazos de entrega óptimos para tus fotografías finales.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Pie de Página -->
+    <footer class="pie-pagina">
+        <p>&copy; 2026 Florencia Herrera. Todos los derechos reservados.</p>
+        <p class="creditos">Hecho por <span class="autor">Lorca, Abel</span></p>
+    </footer>
+
+    <!-- Botón Flotante de WhatsApp (el script.js le completa el enlace con el número central) -->
+    <a href="https://api.whatsapp.com/send?phone=5493865260159" id="btn-whatsapp" class="btn-whatsapp"
+       target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+        💬 WhatsApp
+    </a>
+
+    <!-- Carga del script de la aplicación -->
+    <script src="script.js"></script>
+</body>
+</html>
