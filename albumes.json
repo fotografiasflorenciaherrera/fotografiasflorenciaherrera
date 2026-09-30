@@ -5,7 +5,13 @@
       "id": "Aves",
       "tituloAlbum": "Aves",
       "descripcion": "Aves tucuman",
-      "precioGeneral": "1500"
+      "precioGeneral": "1500",
+      "fotos": [
+        {
+          "title": "Pajarito en Rama",
+          "imagenUrl": "/aves1.jpg"
+        }
+      ]
     }
   ]
 }
