@@ -77,7 +77,34 @@ async function cargarSobreMi() {
         console.log("Cargando contenido por defecto de 'Sobre Mí':", error);
     }
 }
+// Carga dinámicamente la portada (Fondo y textos)
+async function cargarPortada() {
+    try {
+        const respuesta = await fetch("portada.json", { cache: "no-cache" });
+        if (!respuesta.ok) return;
 
+        const datos = await respuesta.json();
+
+        const seccionPortada = document.getElementById("seccion-portada");
+        const tituloPortada = document.getElementById("titulo-portada");
+        const subtituloPortada = document.getElementById("subtitulo-portada");
+
+        // Cambia la imagen de fondo dinámicamente
+        if (datos.imagen_fondo && seccionPortada) {
+            seccionPortada.style.backgroundImage = `url('${datos.imagen_fondo}')`;
+        }
+        
+        // Cambia los textos si existen
+        if (datos.titulo && tituloPortada) {
+            tituloPortada.innerText = datos.titulo;
+        }
+        if (datos.subtitulo && subtituloPortada) {
+            subtituloPortada.innerText = datos.subtitulo;
+        }
+    } catch (error) {
+        console.log("Cargando portada por defecto:", error);
+    }
+}
 async function cargarDatosDesdeCMS() {
     const contenedorFotos = document.getElementById("contenedor-galeria");
     try {
