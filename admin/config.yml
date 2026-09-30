@@ -17,7 +17,16 @@ collections:
           - { label: "Saludo Inicial (Texto Grande)", name: "saludo", widget: "string", default: "Hola, soy Florencia." }
           - { label: "Biografía (Párrafos Principales)", name: "biografia", widget: "text" }
           - { label: "Frase de Cierre (Destacada)", name: "frase_cierre", widget: "text" }
-
+- name: "inicio"
+    label: "Portada del Sitio"
+    files:
+      - file: "portada.json"
+        label: "Imagen y Textos Principales"
+        name: "portada_data"
+        fields:
+          - { label: "Imagen de Fondo", name: "imagen_fondo", widget: "image" }
+          - { label: "Título Principal", name: "titulo", widget: "string", default: "Florencia Herrera" }
+          - { label: "Subtítulo", name: "subtitulo", widget: "string", default: "El arte de la fotografía" }
   - name: "catalogo"
     label: "Gestor de Álbumes"
     files:
